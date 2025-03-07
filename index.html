@@ -173,8 +173,8 @@
 install.packages("remotes")
 
 # Cài đặt Lepistat từ GitHub
-remotes::install_github("username/lepistat")</code></pre>
-                <p>Thay <code>username</code> bằng tên người dùng GitHub chứa repository của gói Lepistat.</p>
+remotes::install_github("leanhngoc147/lepistat")</code></pre>
+                <p>Sử dụng lệnh trên để cài đặt trực tiếp từ repository GitHub của leanhngoc147.</p>
             </div>
 
             <div class="feature-box">
@@ -204,25 +204,38 @@ lepistat_info()</code></pre>
             <div class="feature-box">
                 <h3>Phân tích mô tả</h3>
                 <p>Lepistat cung cấp các hàm mạnh mẽ để tạo bảng mô tả dữ liệu, phù hợp với báo cáo khoa học:</p>
-                <pre><code># Tạo bảng thống kê mô tả
-lepistat_describe(data, vars = c("age", "weight", "height"), 
-                 by = "group", digits = 2)</code></pre>
+                <pre><code># Mô tả cấu trúc dữ liệu
+des(data, gt = TRUE, vie = TRUE)
+
+# Tạo từ điển dữ liệu
+thuviendata(data)
+
+# Tạo bảng thống kê mô tả
+thongkemota(data, digits = 1, title = "Thống kê mô tả")</code></pre>
             </div>
             
             <div class="feature-box">
-                <h3>Biểu đồ chuyên nghiệp</h3>
-                <p>Tạo các biểu đồ đẹp mắt với chỉ một vài dòng lệnh:</p>
-                <pre><code># Tạo biểu đồ box-whisker với p-value
-lepistat_boxplot(data, y = "value", x = "group", 
-                p_value = TRUE, theme = "publication")</code></pre>
+                <h3>Báo cáo HTML tương tác</h3>
+                <p>Tạo báo cáo HTML tương tác với khả năng xuất sang Word và Excel:</p>
+                <pre><code># Tạo báo cáo HTML tương tác
+sharinganhtml(data, varlist = c("gender", "age", "bmi"), 
+              title = "Báo cáo thống kê", theme = "light")
+
+# Báo cáo có phân tầng theo biến
+sharinganhtml(data, varlist = c("sbp", "chol"), by = "gender", 
+              digit = 1, title = "Báo cáo theo giới tính")</code></pre>
             </div>
             
             <div class="feature-box">
-                <h3>Kiểm định thống kê</h3>
-                <p>Thực hiện các kiểm định thống kê phổ biến và nhận kết quả dưới dạng đã định dạng:</p>
-                <pre><code># Thực hiện kiểm định t
-lepistat_ttest(data, var = "outcome", group = "treatment", 
-              equal_var = FALSE, conf.level = 0.95)</code></pre>
+                <h3>Phân tích theo nhóm</h3>
+                <p>Thực hiện phân tích so sánh giữa các nhóm với tính toán tỷ suất chênh (OR) và nguy cơ tương đối (RR):</p>
+                <pre><code># Tạo báo cáo phân tích với OR
+rasengan_html(data, vars = c("disease", "blood_type"), 
+              by = "gender", ratio = "OR", lang = "vie")
+
+# Phân tích nguy cơ tương đối
+rasengan_html(data, vars = c("disease"), by = "age_group", 
+              ratio = "RR", title = "Phân tích nguy cơ")</code></pre>
             </div>
         </div>
     </section>
@@ -233,32 +246,39 @@ lepistat_ttest(data, var = "outcome", group = "treatment",
             
             <div class="feature-box">
                 <h3>Bắt đầu nhanh</h3>
-                <p>Để bắt đầu sử dụng Lepistat, hãy tải gói và sử dụng một vài chức năng cơ bản:</p>
+                <p>Để bắt đầu sử dụng Lepistat, hãy tải gói và sử dụng các chức năng phân tích dữ liệu:</p>
                 <pre><code># Tải gói
 library(lepistat)
 
 # Tạo dữ liệu mẫu
-data <- lepistat_sample_data(n = 100)
+data <- create_sample_data(n = 100)
 
-# Phân tích mô tả
-result <- lepistat_summary(data)
-print(result)
+# Xem mô tả dữ liệu
+des(data)
 
-# Tạo biểu đồ
-lepistat_plot(data, x = "group", y = "value", 
-             type = "bar", title = "Kết quả theo nhóm")</code></pre>
+# Xem từ điển dữ liệu
+thuviendata(data)
+
+# Tạo bảng thống kê mô tả
+thongkemota(data)
+
+# Phân tích và tạo báo cáo HTML
+sharinganhtml(data = data, varlist = c("age", "gender", "bmi"))</code></pre>
             </div>
             
             <div class="feature-box">
-                <h3>Tài liệu và vignettes</h3>
+                <h3>Tạo báo cáo chuyên nghiệp</h3>
                 <p>
-                    Truy cập các tài liệu đầy đủ và vignettes để tìm hiểu thêm:
+                    Lepistat cung cấp các hàm tạo báo cáo HTML tương tác để chia sẻ kết quả phân tích:
                 </p>
-                <pre><code># Xem tài liệu của một hàm
-?lepistat_summary
+                <pre><code># Tạo báo cáo phân tích mô tả
+sharinganhtml(data, varlist = c("gender", "age", "bmi", "sbp"),
+             title = "Báo cáo thống kê mô tả", digit = 1)
 
-# Mở vignette
-vignette("lepistat-intro", package = "lepistat")</code></pre>
+# Tạo bảng phân tích với nhiều tùy chọn
+rasengan_html(data, vars = c("disease", "bmi"),
+             by = "gender", ratio = "OR",
+             title = "Phân tích theo giới tính")</code></pre>
                 <p>
                     <a href="#tai-lieu" class="btn">Xem tất cả tài liệu →</a>
                 </p>
@@ -302,7 +322,7 @@ vignette("lepistat-intro", package = "lepistat")</code></pre>
         <div class="container">
             <p>
                 Lepistat - Phát triển với ❤️ cho cộng đồng nghiên cứu 
-                | <a href="https://github.com/username/lepistat" class="github-link" target="_blank">GitHub</a>
+                |                 <a href="https://github.com/leanhngoc147/lepistat" class="github-link" target="_blank">GitHub</a>
             </p>
             <p>
                 &copy; 2025 Nhóm phát triển Lepistat. All rights reserved.
