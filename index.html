@@ -4,207 +4,779 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lepistat - Gói thống kê cho R</title>
+    <!-- Font Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <!-- Prism CSS for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4169E1;
-            --secondary-color: #228B22;
-            --background-color: #f8f9fa;
-            --text-color: #333;
-            --code-bg-color: #f5f5f5;
-            --code-border-color: #e0e0e0;
+            --primary-color: #4F46E5;
+            --primary-hover: #4338CA;
+            --secondary-color: #10B981;
+            --dark-color: #111827;
+            --light-color: #F9FAFB;
+            --gray-color: #6B7280;
+            --code-bg: #1E293B;
+            --gradient-start: #4F46E5;
+            --gradient-end: #10B981;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            overflow-x: hidden;
         }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 1.5rem;
         }
-        .logo {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
+
+        /* Header & Hero Section */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 6rem 0 8rem;
+            margin-bottom: 5rem;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
         }
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            z-index: 1000;
+            transition: var(--transition);
         }
-        section {
-            padding: 3rem 0;
-        }
-        .section-title {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
-        }
-        pre {
-            background-color: var(--code-bg-color);
-            border: 1px solid var(--code-border-color);
-            border-radius: 4px;
-            padding: 15px;
-            overflow-x: auto;
-        }
-        code {
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .feature-box {
+
+        .navbar.scrolled {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
         }
-        .feature-box h3 {
-            color: var(--secondary-color);
-            margin-top: 0;
+
+        .navbar.scrolled .nav-link {
+            color: var(--dark-color);
         }
+
+        .navbar.scrolled .logo {
+            color: var(--primary-color);
+        }
+
+        .navbar.scrolled .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-link {
+            margin-left: 2rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 3rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Buttons */
         .btn {
             display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #3456bb;
-        }
-        footer {
-            background-color: var(--primary-color);
-            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
             text-align: center;
-            padding: 1.5rem 0;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-dark {
+            background-color: var(--dark-color);
+            color: white;
+            border: 2px solid var(--dark-color);
+        }
+
+        .btn-dark:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Feature Cards */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             margin-top: 2rem;
         }
-        .github-link {
+
+        .feature-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
             color: white;
-            text-decoration: none;
-            font-weight: bold;
+            font-size: 1.5rem;
         }
-        .github-link:hover {
-            text-decoration: underline;
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
         }
-        .nav {
-            background-color: #333;
-            overflow: hidden;
+
+        .feature-text {
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
         }
-        .nav a {
-            float: left;
+
+        /* Installation Section */
+        .installation {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block code {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+            color: #E5E7EB;
             display: block;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
             color: white;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Usage Examples */
+        .examples {
+            margin-top: 3rem;
+        }
+
+        .example-tabs {
+            display: flex;
+            border-bottom: 1px solid #E5E7EB;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .example-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .example-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .example-content {
+            display: none;
+        }
+
+        .example-content.active {
+            display: block;
+        }
+
+        /* Documentation */
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .doc-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .doc-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .doc-text {
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 5rem 0;
             text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
+            border-radius: var(--border-radius);
+            margin: 5rem 0;
         }
-        .nav a:hover {
-            background-color: #ddd;
-            color: black;
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
         }
-        .nav a.active {
-            background-color: var(--primary-color);
+
+        .cta-text {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            display: block;
+        }
+
+        .footer-link:hover {
             color: white;
         }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .fade-in-left {
+            animation: fadeInLeft 1s ease-out forwards;
+        }
+
+        .fade-in-right {
+            animation: fadeInRight 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .logo {
+            .hero {
+                padding: 4rem 0 6rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
                 font-size: 2rem;
             }
-            section {
-                padding: 2rem 0;
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 6rem 2rem 2rem;
+                transition: var(--transition);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-link {
+                margin: 1rem 0;
+                color: var(--dark-color);
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .installation {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Navbar -->
+    <nav class="navbar">
         <div class="container">
-            <div class="logo">Lepistat</div>
-            <div class="subtitle">Gói thống kê R cho phân tích dữ liệu khoa học</div>
-        </div>
-    </header>
+            <a href="#" class="logo">Lepistat</a>
 
-    <div class="nav">
-        <div class="container">
-            <a href="#" class="active">Trang chủ</a>
-            <a href="#cai-dat">Cài đặt</a>
-            <a href="#tinh-nang">Tính năng</a>
-            <a href="#huong-dan">Hướng dẫn</a>
-            <a href="#tai-lieu">Tài liệu</a>
-        </div>
-    </div>
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
 
-    <section id="gioi-thieu">
+            <ul class="nav-links">
+                <li><a href="#gioi-thieu" class="nav-link">Giới thiệu</a></li>
+                <li><a href="#cai-dat" class="nav-link">Cài đặt</a></li>
+                <li><a href="#tinh-nang" class="nav-link">Tính năng</a></li>
+                <li><a href="#huong-dan" class="nav-link">Hướng dẫn</a></li>
+                <li><a href="#tai-lieu" class="nav-link">Tài liệu</a></li>
+                <li><a href="https://github.com/leanhngoc147/lepistat" class="nav-link"><i class="fab fa-github"></i> GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <h2 class="section-title">Giới thiệu về Lepistat</h2>
-            <p>
-                <strong>Lepistat</strong> là một gói R mạnh mẽ được thiết kế để hỗ trợ phân tích dữ liệu thống kê trong các nghiên cứu khoa học. 
-                Gói này cung cấp nhiều chức năng hữu ích cho việc làm sạch dữ liệu, phân tích mô tả, kiểm định thống kê, 
-                và tạo biểu đồ đẹp mắt để trình bày kết quả nghiên cứu của bạn.
-            </p>
-            <p>
-                Được phát triển bởi các nhà nghiên cứu cho các nhà nghiên cứu, Lepistat kết hợp sức mạnh 
-                của R với sự đơn giản trong việc sử dụng, giúp rút ngắn thời gian từ dữ liệu đến những hiểu biết có giá trị.
-            </p>
+            <div class="hero-content">
+                <h1 class="hero-title">Lepistat</h1>
+                <p class="hero-subtitle">Gói thống kê R mạnh mẽ cho phân tích dữ liệu và trình bày kết quả nghiên cứu</p>
+                <div class="hero-btns">
+                    <a href="#cai-dat" class="btn btn-secondary">Cài đặt ngay</a>
+                    <a href="#huong-dan" class="btn btn-primary">Khám phá hướng dẫn</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="cai-dat" style="background-color: white;">
+    <!-- Introduction Section -->
+    <section class="section" id="gioi-thieu">
         <div class="container">
-            <h2 class="section-title">Cài đặt Lepistat</h2>
-            
-            <div class="feature-box">
-                <h3>Cài đặt từ GitHub</h3>
+            <div class="section-header">
+                <h2 class="section-title" data-aos="fade-up">Giới thiệu về Lepistat</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Một gói R toàn diện được thiết kế đặc biệt cho các nhà nghiên cứu để phân tích dữ liệu và trình bày kết quả một cách chuyên nghiệp.
+                </p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="feature-title">Phân tích mô tả</h3>
+                    <p class="feature-text">
+                        Tạo các bảng thống kê mô tả chuyên nghiệp với định dạng phù hợp cho báo cáo khoa học và xuất bản.
+                    </p>
+                    <a href="#mo-ta" class="btn btn-outline">Tìm hiểu thêm</a>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Báo cáo tương tác</h3>
+                    <p class="feature-text">
+                        Tạo báo cáo HTML tương tác với khả năng xuất sang Word và Excel, thuận tiện cho việc chia sẻ kết quả.
+                    </p>
+                    <a href="#bao-cao" class="btn btn-outline">Tìm hiểu thêm</a>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h3 class="feature-title">Phân tích nâng cao</h3>
+                    <p class="feature-text">
+                        Tự động tính toán OR, RR và các thống kê phân tích theo nhóm với kết quả được định dạng sẵn.
+                    </p>
+                    <a href="#nang-cao" class="btn btn-outline">Tìm hiểu thêm</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="section" id="cai-dat" style="background-color: #F3F4F6;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-aos="fade-up">Cài đặt Lepistat</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Chỉ với một vài bước đơn giản để cài đặt và bắt đầu sử dụng Lepistat cho nghiên cứu của bạn.
+                </p>
+            </div>
+
+            <div class="installation" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="feature-title">Cài đặt từ GitHub</h3>
                 <p>Bạn có thể cài đặt phiên bản mới nhất của Lepistat trực tiếp từ GitHub bằng cách sử dụng gói <code>remotes</code> hoặc <code>devtools</code>:</p>
-                <pre><code># Cài đặt gói remotes nếu chưa có
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('install-code')">
+                        <i class="far fa-copy"></i> Copy
+                    </button>
+                    <pre><code id="install-code"># Cài đặt gói remotes nếu chưa có
 install.packages("remotes")
 
 # Cài đặt Lepistat từ GitHub
 remotes::install_github("leanhngoc147/lepistat")</code></pre>
+                </div>
+                
                 <p>Sử dụng lệnh trên để cài đặt trực tiếp từ repository GitHub của leanhngoc147.</p>
-            </div>
 
-            <div class="feature-box">
-                <h3>Yêu cầu cài đặt</h3>
+                <h3 class="feature-title" style="margin-top: 2rem;">Yêu cầu cài đặt</h3>
                 <p>Lepistat yêu cầu:</p>
-                <ul>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
                     <li>R phiên bản 4.0.0 trở lên</li>
-                    <li>Các gói phụ thuộc: <code>dplyr</code>, <code>ggplot2</code>, <code>tidyr</code>, <code>stats</code></li>
+                    <li>Các gói phụ thuộc: <code>dplyr</code>, <code>ggplot2</code>, <code>gt</code>, <code>tidyr</code>, <code>haven</code></li>
                 </ul>
                 <p>Các gói phụ thuộc sẽ được tự động cài đặt khi bạn cài đặt Lepistat.</p>
-            </div>
 
-            <div class="feature-box">
-                <h3>Kiểm tra cài đặt</h3>
+                <h3 class="feature-title" style="margin-top: 2rem;">Kiểm tra cài đặt</h3>
                 <p>Sau khi cài đặt, bạn có thể kiểm tra xem gói đã được cài đặt thành công chưa bằng cách chạy:</p>
-                <pre><code>library(lepistat)
-lepistat_info()</code></pre>
-                <p>Lệnh này sẽ hiển thị thông tin về phiên bản và các chức năng chính của gói.</p>
+                
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('check-code')">
+                        <i class="far fa-copy"></i> Copy
+                    </button>
+                    <pre><code id="check-code">library(lepistat)
+
+# Tạo dữ liệu mẫu để kiểm tra
+data <- create_sample_data(n = 50)
+head(data)</code></pre>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="tinh-nang">
+    <!-- Features Section -->
+    <section class="section" id="tinh-nang">
         <div class="container">
-            <h2 class="section-title">Tính năng chính</h2>
-            
-            <div class="feature-box">
-                <h3>Phân tích mô tả</h3>
-                <p>Lepistat cung cấp các hàm mạnh mẽ để tạo bảng mô tả dữ liệu, phù hợp với báo cáo khoa học:</p>
-                <pre><code># Mô tả cấu trúc dữ liệu
+            <div class="section-header">
+                <h2 class="section-title" data-aos="fade-up">Tính năng chính</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Lepistat cung cấp đầy đủ công cụ cho quy trình phân tích dữ liệu nghiên cứu từ chuẩn bị đến xuất bản.
+                </p>
+            </div>
+
+            <div class="examples">
+                <div class="example-tabs">
+                    <div class="example-tab active" data-tab="mo-ta">Phân tích mô tả</div>
+                    <div class="example-tab" data-tab="bao-cao">Báo cáo HTML</div>
+                    <div class="example-tab" data-tab="nang-cao">Phân tích nâng cao</div>
+                </div>
+
+                <div id="mo-ta" class="example-content active" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <h3 class="feature-title">Phân tích mô tả</h3>
+                        <p class="feature-text">Lepistat cung cấp các hàm mạnh mẽ để tạo bảng mô tả dữ liệu, phù hợp với báo cáo khoa học:</p>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode('desc-code')">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
+                            <pre><code id="desc-code"># Mô tả cấu trúc dữ liệu
 des(data, gt = TRUE, vie = TRUE)
 
 # Tạo từ điển dữ liệu
@@ -212,122 +784,332 @@ thuviendata(data)
 
 # Tạo bảng thống kê mô tả
 thongkemota(data, digits = 1, title = "Thống kê mô tả")</code></pre>
-            </div>
-            
-            <div class="feature-box">
-                <h3>Báo cáo HTML tương tác</h3>
-                <p>Tạo báo cáo HTML tương tác với khả năng xuất sang Word và Excel:</p>
-                <pre><code># Tạo báo cáo HTML tương tác
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bao-cao" class="example-content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <h3 class="feature-title">Báo cáo HTML tương tác</h3>
+                        <p class="feature-text">Tạo báo cáo HTML tương tác với khả năng xuất sang Word và Excel:</p>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode('report-code')">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
+                            <pre><code id="report-code"># Tạo báo cáo HTML tương tác
 sharinganhtml(data, varlist = c("gender", "age", "bmi"), 
               title = "Báo cáo thống kê", theme = "light")
 
 # Báo cáo có phân tầng theo biến
 sharinganhtml(data, varlist = c("sbp", "chol"), by = "gender", 
               digit = 1, title = "Báo cáo theo giới tính")</code></pre>
-            </div>
-            
-            <div class="feature-box">
-                <h3>Phân tích theo nhóm</h3>
-                <p>Thực hiện phân tích so sánh giữa các nhóm với tính toán tỷ suất chênh (OR) và nguy cơ tương đối (RR):</p>
-                <pre><code># Tạo báo cáo phân tích với OR
-rasengan_html(data, vars = c("disease", "blood_type"), 
-              by = "gender", ratio = "OR", lang = "vie")
+                        </div>
+                    </div>
+                </div>
 
-# Phân tích nguy cơ tương đối
-rasengan_html(data, vars = c("disease"), by = "age_group", 
-              ratio = "RR", title = "Phân tích nguy cơ")</code></pre>
-            </div>
-        </div>
-    </section>
-
-    <section id="huong-dan" style="background-color: white;">
-        <div class="container">
-            <h2 class="section-title">Hướng dẫn sử dụng</h2>
-            
-            <div class="feature-box">
-                <h3>Bắt đầu nhanh</h3>
-                <p>Để bắt đầu sử dụng Lepistat, hãy tải gói và sử dụng các chức năng phân tích dữ liệu:</p>
-                <pre><code># Tải gói
-library(lepistat)
-
-# Tạo dữ liệu mẫu
-data <- create_sample_data(n = 100)
-
-# Xem mô tả dữ liệu
-des(data)
-
-# Xem từ điển dữ liệu
-thuviendata(data)
-
-# Tạo bảng thống kê mô tả
-thongkemota(data)
-
-# Phân tích và tạo báo cáo HTML
-sharinganhtml(data = data, varlist = c("age", "gender", "bmi"))</code></pre>
-            </div>
-            
-            <div class="feature-box">
-                <h3>Tạo báo cáo chuyên nghiệp</h3>
-                <p>
-                    Lepistat cung cấp các hàm tạo báo cáo HTML tương tác để chia sẻ kết quả phân tích:
-                </p>
-                <pre><code># Tạo báo cáo phân tích mô tả
-sharinganhtml(data, varlist = c("gender", "age", "bmi", "sbp"),
-             title = "Báo cáo thống kê mô tả", digit = 1)
-
-# Tạo bảng phân tích với nhiều tùy chọn
-rasengan_html(data, vars = c("disease", "bmi"),
-             by = "gender", ratio = "OR",
-             title = "Phân tích theo giới tính")</code></pre>
-                <p>
-                    <a href="#tai-lieu" class="btn">Xem tất cả tài liệu →</a>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="tai-lieu">
-        <div class="container">
-            <h2 class="section-title">Tài liệu</h2>
-            
-            <div class="feature-box">
-                <h3>Tài liệu tham khảo</h3>
-                <p>Xem tài liệu đầy đủ trên trang web của gói:</p>
-                <p>
-                    <a href="https://pakagelepistat.netlify.app/reference" class="btn">Tài liệu tham khảo →</a>
-                </p>
-            </div>
-            
-            <div class="feature-box">
-                <h3>Hướng dẫn chi tiết</h3>
-                <p>Các bài hướng dẫn chi tiết về cách sử dụng Lepistat trong các tình huống khác nhau:</p>
-                <ul>
-                    <li><a href="https://pakagelepistat.netlify.app/articles/basic-usage.html">Hướng dẫn cơ bản</a></li>
-                    <li><a href="https://pakagelepistat.netlify.app/articles/advanced-analysis.html">Phân tích nâng cao</a></li>
-                    <li><a href="https://pakagelepistat.netlify.app/articles/publication-ready.html">Tạo đồ thị cho xuất bản</a></li>
-                </ul>
-            </div>
-            
-            <div class="feature-box">
-                <h3>Ví dụ</h3>
-                <p>Xem các ví dụ thực tế về cách sử dụng Lepistat trong phân tích dữ liệu:</p>
-                <p>
-                    <a href="https://pakagelepistat.netlify.app/examples" class="btn">Xem ví dụ →</a>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>
-                Lepistat - Phát triển với ❤️ cho cộng đồng nghiên cứu 
-                |                 <a href="https://github.com/leanhngoc147/lepistat" class="github-link" target="_blank">GitHub</a>
-            </p>
-            <p>
-                &copy; 2025 Nhóm phát triển Lepistat. All rights reserved.
-            </p>
-        </div>
-    </footer>
-</body>
-</html>
+                <div id="nang-cao" class="example-content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <h3 class="feature-title">Phân tích theo nhóm</h3>
+                        <p class="feature-text">Thực hiện phân tích so sánh giữa các nhóm với tính toán tỷ suất chênh (OR) và nguy cơ tương đối (RR):</p>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode('advanced-code')">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
+                            <pre><code id="advanced-code"># Tạo báo cáo phân tích với OR
+                                rasengan_html(data, vars = c("disease", "blood_type"), 
+                                              by = "gender", ratio = "OR", lang = "vie")
+                                
+                                # Phân tích nguy cơ tương đối
+                                rasengan_html(data, vars = c("disease"), by = "age_group", 
+                                              ratio = "RR", title = "Phân tích nguy cơ")</code></pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                
+                                    <!-- Get Started Section -->
+                                    <section class="section" id="huong-dan" style="background-color: #F3F4F6;">
+                                        <div class="container">
+                                            <div class="section-header">
+                                                <h2 class="section-title" data-aos="fade-up">Hướng dẫn sử dụng</h2>
+                                                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                                                    Bắt đầu nhanh chóng với Lepistat qua các ví dụ thực tế và hướng dẫn chi tiết.
+                                                </p>
+                                            </div>
+                                
+                                            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                                                <h3 class="feature-title">Bắt đầu nhanh</h3>
+                                                <p class="feature-text">Để bắt đầu sử dụng Lepistat, hãy tải gói và sử dụng các chức năng phân tích dữ liệu:</p>
+                                                <div class="code-block">
+                                                    <button class="copy-btn" onclick="copyCode('quickstart-code')">
+                                                        <i class="far fa-copy"></i> Copy
+                                                    </button>
+                                                    <pre><code id="quickstart-code"># Tải gói
+                                library(lepistat)
+                                
+                                # Tạo dữ liệu mẫu
+                                data <- create_sample_data(n = 100)
+                                
+                                # Xem mô tả dữ liệu
+                                des(data)
+                                
+                                # Xem từ điển dữ liệu
+                                thuviendata(data)
+                                
+                                # Tạo bảng thống kê mô tả
+                                thongkemota(data)
+                                
+                                # Phân tích và tạo báo cáo HTML
+                                sharinganhtml(data = data, varlist = c("age", "gender", "bmi"))</code></pre>
+                                                </div>
+                                            </div>
+                                
+                                            <div class="feature-card" data-aos="fade-up" data-aos-delay="300" style="margin-top: 2rem;">
+                                                <h3 class="feature-title">Phân tích dữ liệu y khoa</h3>
+                                                <p class="feature-text">Ví dụ về cách phân tích và báo cáo dữ liệu y khoa:</p>
+                                                <div class="code-block">
+                                                    <button class="copy-btn" onclick="copyCode('medical-code')">
+                                                        <i class="far fa-copy"></i> Copy
+                                                    </button>
+                                                    <pre><code id="medical-code"># Tạo dữ liệu mẫu
+                                patient_data <- create_sample_data(n = 200)
+                                
+                                # Tạo báo cáo thống kê mô tả phân tầng theo giới tính
+                                sharinganhtml(data = patient_data, 
+                                              varlist = c("age", "bmi", "sbp", "chol", "disease"), 
+                                              by = "gender",
+                                              title = "Đặc điểm bệnh nhân theo giới tính",
+                                              digit = 1)
+                                
+                                # Phân tích mối liên quan giữa yếu tố nguy cơ và bệnh
+                                rasengan_html(patient_data, 
+                                              vars = c("bmi", "sbp", "chol"), 
+                                              by = "disease",
+                                              ratio = "OR", 
+                                              title = "Phân tích yếu tố nguy cơ bệnh",
+                                              digit = 2)</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                
+                                    <!-- Documentation Section -->
+                                    <section class="section" id="tai-lieu">
+                                        <div class="container">
+                                            <div class="section-header">
+                                                <h2 class="section-title" data-aos="fade-up">Tài liệu</h2>
+                                                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                                                    Truy cập đầy đủ tài liệu tham khảo và hướng dẫn chi tiết về cách sử dụng Lepistat.
+                                                </p>
+                                            </div>
+                                
+                                            <div class="docs-grid">
+                                                <div class="doc-card" data-aos="fade-up" data-aos-delay="200">
+                                                    <h3 class="doc-title">Tài liệu tham khảo</h3>
+                                                    <p class="doc-text">
+                                                        Tra cứu chi tiết về tất cả các hàm và tham số được hỗ trợ trong gói Lepistat.
+                                                    </p>
+                                                    <a href="#" class="btn btn-outline">Xem tài liệu</a>
+                                                </div>
+                                
+                                                <div class="doc-card" data-aos="fade-up" data-aos-delay="300">
+                                                    <h3 class="doc-title">Hướng dẫn chi tiết</h3>
+                                                    <p class="doc-text">
+                                                        Các bài hướng dẫn từng bước giúp bạn làm quen với các tính năng của Lepistat.
+                                                    </p>
+                                                    <a href="#" class="btn btn-outline">Xem hướng dẫn</a>
+                                                </div>
+                                
+                                                <div class="doc-card" data-aos="fade-up" data-aos-delay="400">
+                                                    <h3 class="doc-title">Ví dụ thực tế</h3>
+                                                    <p class="doc-text">
+                                                        Nghiên cứu các ví dụ thực tế về cách sử dụng Lepistat trong phân tích dữ liệu nghiên cứu.
+                                                    </p>
+                                                    <a href="#" class="btn btn-outline">Xem ví dụ</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                
+                                    <!-- CTA Section -->
+                                    <section class="section">
+                                        <div class="container">
+                                            <div class="cta" data-aos="fade-up">
+                                                <h2 class="cta-title">Bắt đầu với Lepistat ngay hôm nay</h2>
+                                                <p class="cta-text">
+                                                    Tối ưu hóa quy trình phân tích dữ liệu nghiên cứu của bạn với các công cụ mạnh mẽ và báo cáo trực quan.
+                                                </p>
+                                                <a href="#cai-dat" class="btn btn-secondary">Cài đặt ngay</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                
+                                    <!-- Footer -->
+                                    <footer class="footer">
+                                        <div class="container">
+                                            <div class="footer-content">
+                                                <div class="footer-col">
+                                                    <h3>Lepistat</h3>
+                                                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 1rem;">
+                                                        Gói thống kê R chuyên nghiệp cho phân tích dữ liệu nghiên cứu.
+                                                    </p>
+                                                    <div class="social-links">
+                                                        <a href="https://github.com/leanhngoc147/lepistat" class="social-link">
+                                                            <i class="fab fa-github"></i>
+                                                        </a>
+                                                        <a href="#" class="social-link">
+                                                            <i class="fab fa-twitter"></i>
+                                                        </a>
+                                                        <a href="#" class="social-link">
+                                                            <i class="fab fa-linkedin-in"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                
+                                                <div class="footer-col">
+                                                    <h3>Liên kết</h3>
+                                                    <ul class="footer-links">
+                                                        <li><a href="#gioi-thieu" class="footer-link">Giới thiệu</a></li>
+                                                        <li><a href="#cai-dat" class="footer-link">Cài đặt</a></li>
+                                                        <li><a href="#tinh-nang" class="footer-link">Tính năng</a></li>
+                                                        <li><a href="#huong-dan" class="footer-link">Hướng dẫn</a></li>
+                                                        <li><a href="#tai-lieu" class="footer-link">Tài liệu</a></li>
+                                                    </ul>
+                                                </div>
+                                
+                                                <div class="footer-col">
+                                                    <h3>Tài nguyên</h3>
+                                                    <ul class="footer-links">
+                                                        <li><a href="#" class="footer-link">Hướng dẫn cài đặt</a></li>
+                                                        <li><a href="#" class="footer-link">Tài liệu API</a></li>
+                                                        <li><a href="#" class="footer-link">Ví dụ mã nguồn</a></li>
+                                                        <li><a href="#" class="footer-link">Báo cáo lỗi</a></li>
+                                                        <li><a href="#" class="footer-link">Đóng góp</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                
+                                            <div class="footer-bottom">
+                                                <p>&copy; 2025 Lepistat - Phát triển bởi Ngọc Lê Anh. All rights reserved.</p>
+                                            </div>
+                                        </div>
+                                    </footer>
+                                
+                                    <!-- Scripts -->
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+                                
+                                    <script>
+                                        // Initialize AOS
+                                        AOS.init({
+                                            duration: 800,
+                                            easing: 'ease-in-out',
+                                            once: true
+                                        });
+                                
+                                        // Mobile Menu Toggle
+                                        const mobileToggle = document.querySelector('.mobile-toggle');
+                                        const navLinks = document.querySelector('.nav-links');
+                                
+                                        mobileToggle.addEventListener('click', () => {
+                                            navLinks.classList.toggle('active');
+                                        });
+                                
+                                        // Smooth scrolling for navigation links
+                                        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                                            anchor.addEventListener('click', function (e) {
+                                                e.preventDefault();
+                                                navLinks.classList.remove('active');
+                                                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                                                    behavior: 'smooth'
+                                                });
+                                            });
+                                        });
+                                
+                                        // Navbar color change on scroll
+                                        window.addEventListener('scroll', () => {
+                                            const navbar = document.querySelector('.navbar');
+                                            if (window.scrollY > 50) {
+                                                navbar.classList.add('scrolled');
+                                            } else {
+                                                navbar.classList.remove('scrolled');
+                                            }
+                                        });
+                                
+                                        // Tab switching
+                                        const tabs = document.querySelectorAll('.example-tab');
+                                        const tabContents = document.querySelectorAll('.example-content');
+                                
+                                        tabs.forEach(tab => {
+                                            tab.addEventListener('click', () => {
+                                                const target = tab.getAttribute('data-tab');
+                                                
+                                                tabs.forEach(t => t.classList.remove('active'));
+                                                tabContents.forEach(c => c.classList.remove('active'));
+                                                
+                                                tab.classList.add('active');
+                                                document.getElementById(target).classList.add('active');
+                                            });
+                                        });
+                                
+                                        // Copy code to clipboard
+                                        function copyCode(id) {
+                                            const codeBlock = document.getElementById(id);
+                                            const text = codeBlock.textContent;
+                                            
+                                            navigator.clipboard.writeText(text).then(() => {
+                                                const button = codeBlock.parentNode.querySelector('.copy-btn');
+                                                const originalText = button.innerHTML;
+                                                
+                                                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                                                
+                                                setTimeout(() => {
+                                                    button.innerHTML = originalText;
+                                                }, 2000);
+                                            });
+                                        }
+                                
+                                        // Typed.js effect for hero subtitle
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            // Add fade-in animation to elements with delay
+                                            const animateElements = document.querySelectorAll('.fade-in');
+                                            animateElements.forEach((el, index) => {
+                                                setTimeout(() => {
+                                                    el.style.opacity = 1;
+                                                }, 300 * index);
+                                            });
+                                
+                                            // Animate feature cards on hover with 3D effect
+                                            const featureCards = document.querySelectorAll('.feature-card');
+                                            featureCards.forEach(card => {
+                                                card.addEventListener('mousemove', (e) => {
+                                                    const rect = card.getBoundingClientRect();
+                                                    const x = e.clientX - rect.left;
+                                                    const y = e.clientY - rect.top;
+                                                    
+                                                    const xRotation = ((y - rect.height / 2) / 10) * -1;
+                                                    const yRotation = (x - rect.width / 2) / 10;
+                                                    
+                                                    card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) scale(1.05)`;
+                                                });
+                                                
+                                                card.addEventListener('mouseout', () => {
+                                                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                                                });
+                                            });
+                                
+                                            // Add parallax scrolling effect to hero section
+                                            window.addEventListener('scroll', () => {
+                                                const scrolled = window.scrollY;
+                                                const hero = document.querySelector('.hero');
+                                                if (hero) {
+                                                    hero.style.backgroundPosition = `center ${scrolled * 0.5}px`;
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </body>
+                                </html>
