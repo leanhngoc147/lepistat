@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lepistat - Gói thống kê cho R</title>
+    <style>
+        :root {
+            --primary-color: #4169E1;
+            --secondary-color: #228B22;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --code-bg-color: #f5f5f5;
+            --code-border-color: #e0e0e0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        section {
+            padding: 3rem 0;
+        }
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        pre {
+            background-color: var(--code-bg-color);
+            border: 1px solid var(--code-border-color);
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .feature-box {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .feature-box h3 {
+            color: var(--secondary-color);
+            margin-top: 0;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #3456bb;
+        }
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        .github-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .github-link:hover {
+            text-decoration: underline;
+        }
+        .nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            section {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Lepistat</div>
+            <div class="subtitle">Gói thống kê R cho phân tích dữ liệu khoa học</div>
+        </div>
+    </header>
+
+    <div class="nav">
+        <div class="container">
+            <a href="#" class="active">Trang chủ</a>
+            <a href="#cai-dat">Cài đặt</a>
+            <a href="#tinh-nang">Tính năng</a>
+            <a href="#huong-dan">Hướng dẫn</a>
+            <a href="#tai-lieu">Tài liệu</a>
+        </div>
+    </div>
+
+    <section id="gioi-thieu">
+        <div class="container">
+            <h2 class="section-title">Giới thiệu về Lepistat</h2>
+            <p>
+                <strong>Lepistat</strong> là một gói R mạnh mẽ được thiết kế để hỗ trợ phân tích dữ liệu thống kê trong các nghiên cứu khoa học. 
+                Gói này cung cấp nhiều chức năng hữu ích cho việc làm sạch dữ liệu, phân tích mô tả, kiểm định thống kê, 
+                và tạo biểu đồ đẹp mắt để trình bày kết quả nghiên cứu của bạn.
+            </p>
+            <p>
+                Được phát triển bởi các nhà nghiên cứu cho các nhà nghiên cứu, Lepistat kết hợp sức mạnh 
+                của R với sự đơn giản trong việc sử dụng, giúp rút ngắn thời gian từ dữ liệu đến những hiểu biết có giá trị.
+            </p>
+        </div>
+    </section>
+
+    <section id="cai-dat" style="background-color: white;">
+        <div class="container">
+            <h2 class="section-title">Cài đặt Lepistat</h2>
+            
+            <div class="feature-box">
+                <h3>Cài đặt từ GitHub</h3>
+                <p>Bạn có thể cài đặt phiên bản mới nhất của Lepistat trực tiếp từ GitHub bằng cách sử dụng gói <code>remotes</code> hoặc <code>devtools</code>:</p>
+                <pre><code># Cài đặt gói remotes nếu chưa có
+install.packages("remotes")
+
+# Cài đặt Lepistat từ GitHub
+remotes::install_github("username/lepistat")</code></pre>
+                <p>Thay <code>username</code> bằng tên người dùng GitHub chứa repository của gói Lepistat.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Yêu cầu cài đặt</h3>
+                <p>Lepistat yêu cầu:</p>
+                <ul>
+                    <li>R phiên bản 4.0.0 trở lên</li>
+                    <li>Các gói phụ thuộc: <code>dplyr</code>, <code>ggplot2</code>, <code>tidyr</code>, <code>stats</code></li>
+                </ul>
+                <p>Các gói phụ thuộc sẽ được tự động cài đặt khi bạn cài đặt Lepistat.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>Kiểm tra cài đặt</h3>
+                <p>Sau khi cài đặt, bạn có thể kiểm tra xem gói đã được cài đặt thành công chưa bằng cách chạy:</p>
+                <pre><code>library(lepistat)
+lepistat_info()</code></pre>
+                <p>Lệnh này sẽ hiển thị thông tin về phiên bản và các chức năng chính của gói.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tinh-nang">
+        <div class="container">
+            <h2 class="section-title">Tính năng chính</h2>
+            
+            <div class="feature-box">
+                <h3>Phân tích mô tả</h3>
+                <p>Lepistat cung cấp các hàm mạnh mẽ để tạo bảng mô tả dữ liệu, phù hợp với báo cáo khoa học:</p>
+                <pre><code># Tạo bảng thống kê mô tả
+lepistat_describe(data, vars = c("age", "weight", "height"), 
+                 by = "group", digits = 2)</code></pre>
+            </div>
+            
+            <div class="feature-box">
+                <h3>Biểu đồ chuyên nghiệp</h3>
+                <p>Tạo các biểu đồ đẹp mắt với chỉ một vài dòng lệnh:</p>
+                <pre><code># Tạo biểu đồ box-whisker với p-value
+lepistat_boxplot(data, y = "value", x = "group", 
+                p_value = TRUE, theme = "publication")</code></pre>
+            </div>
+            
+            <div class="feature-box">
+                <h3>Kiểm định thống kê</h3>
+                <p>Thực hiện các kiểm định thống kê phổ biến và nhận kết quả dưới dạng đã định dạng:</p>
+                <pre><code># Thực hiện kiểm định t
+lepistat_ttest(data, var = "outcome", group = "treatment", 
+              equal_var = FALSE, conf.level = 0.95)</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="huong-dan" style="background-color: white;">
+        <div class="container">
+            <h2 class="section-title">Hướng dẫn sử dụng</h2>
+            
+            <div class="feature-box">
+                <h3>Bắt đầu nhanh</h3>
+                <p>Để bắt đầu sử dụng Lepistat, hãy tải gói và sử dụng một vài chức năng cơ bản:</p>
+                <pre><code># Tải gói
+library(lepistat)
+
+# Tạo dữ liệu mẫu
+data <- lepistat_sample_data(n = 100)
+
+# Phân tích mô tả
+result <- lepistat_summary(data)
+print(result)
+
+# Tạo biểu đồ
+lepistat_plot(data, x = "group", y = "value", 
+             type = "bar", title = "Kết quả theo nhóm")</code></pre>
+            </div>
+            
+            <div class="feature-box">
+                <h3>Tài liệu và vignettes</h3>
+                <p>
+                    Truy cập các tài liệu đầy đủ và vignettes để tìm hiểu thêm:
+                </p>
+                <pre><code># Xem tài liệu của một hàm
+?lepistat_summary
+
+# Mở vignette
+vignette("lepistat-intro", package = "lepistat")</code></pre>
+                <p>
+                    <a href="#tai-lieu" class="btn">Xem tất cả tài liệu →</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tai-lieu">
+        <div class="container">
+            <h2 class="section-title">Tài liệu</h2>
+            
+            <div class="feature-box">
+                <h3>Tài liệu tham khảo</h3>
+                <p>Xem tài liệu đầy đủ trên trang web của gói:</p>
+                <p>
+                    <a href="https://pakagelepistat.netlify.app/reference" class="btn">Tài liệu tham khảo →</a>
+                </p>
+            </div>
+            
+            <div class="feature-box">
+                <h3>Hướng dẫn chi tiết</h3>
+                <p>Các bài hướng dẫn chi tiết về cách sử dụng Lepistat trong các tình huống khác nhau:</p>
+                <ul>
+                    <li><a href="https://pakagelepistat.netlify.app/articles/basic-usage.html">Hướng dẫn cơ bản</a></li>
+                    <li><a href="https://pakagelepistat.netlify.app/articles/advanced-analysis.html">Phân tích nâng cao</a></li>
+                    <li><a href="https://pakagelepistat.netlify.app/articles/publication-ready.html">Tạo đồ thị cho xuất bản</a></li>
+                </ul>
+            </div>
+            
+            <div class="feature-box">
+                <h3>Ví dụ</h3>
+                <p>Xem các ví dụ thực tế về cách sử dụng Lepistat trong phân tích dữ liệu:</p>
+                <p>
+                    <a href="https://pakagelepistat.netlify.app/examples" class="btn">Xem ví dụ →</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                Lepistat - Phát triển với ❤️ cho cộng đồng nghiên cứu 
+                | <a href="https://github.com/username/lepistat" class="github-link" target="_blank">GitHub</a>
+            </p>
+            <p>
+                &copy; 2025 Nhóm phát triển Lepistat. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
