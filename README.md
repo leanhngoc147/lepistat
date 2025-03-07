@@ -1,0 +1,25 @@
+
+# lepistat
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of lepistat is to ...
+
+## Installation
+
+You can install the development version of lepistat like so:
+
+``` r
+# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(lepistat)
+## basic example code
+```
+
