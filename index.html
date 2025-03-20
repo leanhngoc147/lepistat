@@ -3,1113 +3,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lepistat - Gói thống kê cho R</title>
-    <!-- Font Google -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AOS Animation Library -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <!-- Prism CSS for code highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <title>Hướng dẫn sử dụng gói lepistat</title>
     <style>
-        :root {
-            --primary-color: #4F46E5;
-            --primary-hover: #4338CA;
-            --secondary-color: #10B981;
-            --dark-color: #111827;
-            --light-color: #F9FAFB;
-            --gray-color: #6B7280;
-            --code-bg: #1E293B;
-            --gradient-start: #4F46E5;
-            --gradient-end: #10B981;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --border-radius: 8px;
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
-            color: var(--dark-color);
-            background-color: var(--light-color);
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-        }
-
-        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 20px;
+            color: #333;
         }
-
-        /* Header & Hero Section */
-        .hero {
-            position: relative;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            color: white;
-            padding: 6rem 0 8rem;
-            margin-bottom: 5rem;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
         }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            z-index: 1000;
-            transition: var(--transition);
-        }
-
-        .navbar.scrolled {
-            background-color: white;
-            box-shadow: var(--shadow-md);
-        }
-
-        .navbar.scrolled .nav-link {
-            color: var(--dark-color);
-        }
-
-        .navbar.scrolled .logo {
-            color: var(--primary-color);
-        }
-
-        .navbar.scrolled .nav-link:hover {
-            color: var(--primary-color);
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            list-style: none;
-        }
-
-        .nav-link {
-            margin-left: 2rem;
-            font-weight: 500;
-            color: white;
-        }
-
-        .nav-link:hover {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .mobile-toggle {
-            display: none;
-            font-size: 1.5rem;
-            background: transparent;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-
-        .hero-content {
+        h1 {
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            padding-top: 3rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
-
-        .hero-title {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-
-        .hero-btns {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            animation: fadeInUp 1s ease-out 0.4s forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            text-align: center;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            border: 2px solid var(--primary-color);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background-color: white;
-            color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-dark {
-            background-color: var(--dark-color);
-            color: white;
-            border: 2px solid var(--dark-color);
-        }
-
-        .btn-dark:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Sections */
-        .section {
-            padding: 5rem 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray-color);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Feature Cards */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .feature-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
-        }
-
-        .feature-text {
-            color: var(--gray-color);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Installation Section */
-        .installation {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 3rem;
-            box-shadow: var(--shadow-md);
-            margin-top: 2rem;
-        }
-
-        .code-block {
-            background-color: var(--code-bg);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            overflow-x: auto;
-            position: relative;
-        }
-
-        .code-block code {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
-            color: #E5E7EB;
-            display: block;
-            line-height: 1.5;
-        }
-
-        .copy-btn {
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
+        .function-container {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
             border-radius: 4px;
-            color: white;
-            padding: 0.3rem 0.6rem;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: var(--transition);
         }
-
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .function-title {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.2em;
+            margin-bottom: 10px;
         }
-
-        /* Usage Examples */
-        .examples {
-            margin-top: 3rem;
-        }
-
-        .example-tabs {
-            display: flex;
-            border-bottom: 1px solid #E5E7EB;
-            margin-bottom: 1.5rem;
+        pre {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
             overflow-x: auto;
         }
-
-        .example-tab {
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            font-weight: 500;
-            border-bottom: 2px solid transparent;
-            white-space: nowrap;
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            color: #c7254e;
+            background-color: #f9f2f4;
+            padding: 2px 4px;
+            border-radius: 4px;
         }
-
-        .example-tab.active {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
+        .parameter {
+            margin-left: 20px;
+            margin-bottom: 5px;
         }
-
-        .example-content {
-            display: none;
+        .parameter-name {
+            font-weight: bold;
+            color: #3498db;
         }
-
-        .example-content.active {
-            display: block;
+        .example {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
         }
-
-        /* Documentation */
-        .docs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
         }
-
-        .doc-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
         }
-
-        .doc-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
         }
-
-        .doc-title {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
+        th {
+            background-color: #f2f2f2;
         }
-
-        .doc-text {
-            color: var(--gray-color);
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-
-        /* CTA Section */
-        .cta {
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            color: white;
-            padding: 5rem 0;
-            text-align: center;
-            border-radius: var(--border-radius);
-            margin: 5rem 0;
-        }
-
-        .cta-title {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta-text {
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 3rem 0;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-col h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-link {
-            margin-bottom: 0.75rem;
-            color: rgba(255, 255, 255, 0.7);
-            display: block;
-        }
-
-        .footer-link:hover {
-            color: white;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background-color: var(--primary-color);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-
-        /* Animation Classes */
-        .fade-in {
-            animation: fadeIn 1s ease-out forwards;
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 1s ease-out forwards;
-        }
-
-        .fade-in-left {
-            animation: fadeInLeft 1s ease-out forwards;
-        }
-
-        .fade-in-right {
-            animation: fadeInRight 1s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 4rem 0 6rem;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 70%;
-                height: 100vh;
-                background-color: white;
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: flex-start;
-                padding: 6rem 2rem 2rem;
-                transition: var(--transition);
-                box-shadow: var(--shadow-lg);
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .nav-link {
-                margin: 1rem 0;
-                color: var(--dark-color);
-            }
-
-            .hero-btns {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                margin-bottom: 1rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .section {
-                padding: 3rem 0;
-            }
-
-            .installation {
-                padding: 1.5rem;
-            }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">Lepistat</a>
+    <h1>Hướng dẫn sử dụng gói lepistat</h1>
+    
+    <p>Gói lepistat cung cấp các công cụ phân tích thống kê dịch tễ học và y tế công cộng trong R. Hướng dẫn này giới thiệu các hàm chính và cách sử dụng.</p>
 
-            <button class="mobile-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
+    <h2>Mục lục</h2>
+    <ul>
+        <li><a href="#create_custom_data">create_custom_data()</a> - Tạo dữ liệu tùy chỉnh</li>
+        <li><a href="#sample_data">sample_data()</a> - Tạo dữ liệu mẫu</li>
+        <li><a href="#des">des()</a> - Kiểm tra cấu trúc dữ liệu</li>
+        <li><a href="#thuviendata">thuviendata()</a> - Hiển thị từ điển dữ liệu</li>
+        <li><a href="#thongkemota">thongkemota()</a> - Thống kê mô tả</li>
+        <li><a href="#tudien">tudien()</a> - Tạo bảng từ điển dữ liệu</li>
+        <li><a href="#rasengan_html">rasengan_html()</a> - Tạo báo cáo HTML</li>
+        <li><a href="#sharinganhtml">sharinganhtml()</a> - Tạo báo cáo HTML tương tác</li>
+        <li><a href="#sharingangt">sharingangt()</a> - Tạo bảng GT</li>
+        <li><a href="#lecodebook">lecodebook()</a> - Tạo từ điển dữ liệu trực quan</li>
+    </ul>
 
-            <ul class="nav-links">
-                <li><a href="#gioi-thieu" class="nav-link">Giới thiệu</a></li>
-                <li><a href="#cai-dat" class="nav-link">Cài đặt</a></li>
-                <li><a href="#tinh-nang" class="nav-link">Tính năng</a></li>
-                <li><a href="#huong-dan" class="nav-link">Hướng dẫn</a></li>
-                <li><a href="#tai-lieu" class="nav-link">Tài liệu</a></li>
-                <li><a href="https://github.com/leanhngoc147/lepistat" class="nav-link"><i class="fab fa-github"></i> GitHub</a></li>
+    <h2 id="create_custom_data">1. create_custom_data()</h2>
+    <div class="function-container">
+        <div class="function-title">create_custom_data() - Tạo dữ liệu tùy chỉnh trong R</div>
+        <p>Hàm này cho phép tạo dữ liệu tùy chỉnh với các biến định lượng, định tính và thậm chí tạo dữ liệu từ mô hình hồi quy.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>create_custom_data(n, quant_vars = list(), cat_vars = list(),
+                     diagnostic_test = NULL, regression_model = NULL, seed = NULL)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">n</span>: Số lượng quan sát (mẫu) cần tạo</p>
+            <p><span class="parameter-name">quant_vars</span>: Danh sách các biến định lượng cần tạo, mỗi phần tử có cấu trúc:</p>
+            <ul>
+                <li>name: Tên biến</li>
+                <li>method: Phương pháp tạo ("mean_sd", "median_iqr", hoặc "integer")</li>
+                <li>params: Các tham số tương ứng với phương pháp
+                    <ul>
+                        <li>Nếu method = "mean_sd": mean (trung bình), sd (độ lệch chuẩn)</li>
+                        <li>Nếu method = "median_iqr": median (trung vị), q1 (phân vị thứ nhất), q3 (phân vị thứ ba)</li>
+                        <li>Nếu method = "integer": min (giá trị nhỏ nhất), max (giá trị lớn nhất), probs (xác suất tùy chọn)</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><span class="parameter-name">cat_vars</span>: Danh sách các biến định tính cần tạo, mỗi phần tử có cấu trúc:</p>
+            <ul>
+                <li>name: Tên biến</li>
+                <li>levels: Các mức của biến định tính</li>
+                <li>probs: Xác suất tương ứng với mỗi mức</li>
+                <li>labels: Nhãn cho mỗi mức (tùy chọn)</li>
+            </ul>
+            <p><span class="parameter-name">diagnostic_test</span>: Danh sách thông số để tạo dữ liệu test chẩn đoán (tùy chọn)</p>
+            <p><span class="parameter-name">regression_model</span>: Danh sách thông số để tạo dữ liệu từ mô hình hồi quy (tùy chọn)</p>
+            <p><span class="parameter-name">seed</span>: Giá trị seed cho việc tạo số ngẫu nhiên (tùy chọn)</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Ví dụ tạo dữ liệu mô hình hồi quy tuyến tính
+linear_data <- create_custom_data(
+  n = 200,
+  quant_vars = list(
+    list(name = "tuoi", method = "mean_sd", params = list(mean = 35, sd = 10)),
+    list(name = "bmi", method = "mean_sd", params = list(mean = 24, sd = 4))
+  ),
+  cat_vars = list(
+    list(name = "gioi_tinh", levels = c("Nam", "Nu"), probs = c(0.45, 0.55))
+  ),
+  regression_model = list(
+    outcome_name = "huyet_ap",
+    type = "linear",
+    predictors = list(tuoi = 0.5, bmi = 1.2, "gioi_tinhNu" = -5),
+    intercept = 90,
+    error_params = list(sd = 8)
+  ),
+  seed = 123
+)
+            </pre>
+        </div>
+    </div>
+
+    <h2 id="sample_data">2. sample_data()</h2>
+    <div class="function-container">
+        <div class="function-title">sample_data() - Tạo data frame mẫu về dữ liệu bệnh nhân</div>
+        <p>Hàm này tạo một bộ dữ liệu mẫu với các biến y tế thường gặp như giới tính, tuổi, BMI, huyết áp...</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>sample_data(n = 200)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">n</span>: Số lượng quan sát (mẫu) cần tạo, mặc định là 200</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo bộ dữ liệu mẫu với 300 bệnh nhân
+df <- sample_data(n = 300)
+head(df)
+            </pre>
+        </div>
+    </div>
+
+    <h2 id="des">3. des()</h2>
+    <div class="function-container">
+        <div class="function-title">des() - Kiểm tra cấu trúc dữ liệu</div>
+        <p>Hàm này cung cấp thông tin tổng quan về cấu trúc dữ liệu, tên biến, nhãn và kiểu dữ liệu.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>des(data, gt = TRUE, vie = FALSE)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">data</span>: Dữ liệu cần phân tích (data frame)</p>
+            <p><span class="parameter-name">gt</span>: Sử dụng gói gt để tạo bảng (mặc định TRUE)</p>
+            <p><span class="parameter-name">vie</span>: Hiển thị tiếng Việt (mặc định FALSE)</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo dữ liệu mẫu
+df <- sample_data(100)
+
+# Kiểm tra cấu trúc dữ liệu với tiếng Việt
+des(df, vie = TRUE)
+            </pre>
+        </div>
+    </div>
+
+    <h2 id="thuviendata">4. thuviendata()</h2>
+    <div class="function-container">
+        <div class="function-title">thuviendata() - Hiển thị từ điển dữ liệu</div>
+        <p>Hàm này tạo một từ điển dữ liệu chi tiết hiển thị tên biến, giá trị và nhãn biến.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>thuviendata(data)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">data</span>: Dữ liệu cần tạo từ điển (data frame)</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo từ điển dữ liệu
+df <- sample_data(100)
+thuviendata(df)
+            </pre>
+        </div>
+    </div>
+
+    <h2 id="thongkemota">5. thongkemota()</h2>
+    <div class="function-container">
+        <div class="function-title">thongkemota() - Thống kê mô tả</div>
+        <p>Hàm tạo bảng thống kê mô tả các biến trong dữ liệu, bao gồm tần số, tỷ lệ cho biến định tính và trung bình, độ lệch chuẩn cho biến định lượng.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>thongkemota(data, by = NULL, digits = 1, title = "**Bảng thống kê mô tả**", 
+           mean_sd_vars = NULL, median_iqr_vars = NULL, bold_var = TRUE)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">data</span>: Dữ liệu cần phân tích (data frame)</p>
+            <p><span class="parameter-name">by</span>: Biến phân nhóm (tùy chọn)</p>
+            <p><span class="parameter-name">digits</span>: Số chữ số thập phân (mặc định 1)</p>
+            <p><span class="parameter-name">title</span>: Tiêu đề bảng</p>
+            <p><span class="parameter-name">mean_sd_vars</span>: Danh sách các biến báo cáo theo trung bình ± độ lệch chuẩn</p>
+            <p><span class="parameter-name">median_iqr_vars</span>: Danh sách các biến báo cáo theo trung vị (khoảng tứ phân vị)</p>
+            <p><span class="parameter-name">bold_var</span>: In đậm tên biến (mặc định TRUE)</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo bảng thống kê mô tả
+df <- sample_data(100)
+thongkemota(df, digits = 2, title = "**Thống kê mô tả dữ liệu bệnh nhân**")
+            </pre>
+        </div>
+    </div>
+
+    <h2 id="tudien">6. tudien()</h2>
+    <div class="function-container">
+        <div class="function-title">tudien() - Tạo bảng từ điển dữ liệu</div>
+        <p>Hàm tạo một bảng từ điển dữ liệu với tùy chọn lọc và định dạng.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>tudien(df, varnames, report = "all", theme = NULL, lang = "vi")</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">df</span>: Dữ liệu cần tạo từ điển (data frame)</p>
+            <p><span class="parameter-name">varnames</span>: Danh sách tên biến cần hiển thị</p>
+            <p><span class="parameter-name">report</span>: Loại biến cần báo cáo ("all", "Biến định lượng", "Biến định tính")</p>
+            <p><span class="parameter-name">theme</span>: Tùy chọn định dạng (NULL, 1, 2, 3)</p>
+            <p><span class="parameter-name">lang</span>: Ngôn ngữ hiển thị ("vi" hoặc "en")</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo từ điển dữ liệu chỉ hiển thị biến định lượng
+df <- sample_data(100)
+tudien(df, varnames = c("age", "bmi", "sbp"), report = "Biến định lượng", theme = 1)
+            </pre>
+        </div>
+    </div>
+
+    <h2 id="rasengan_html">7. rasengan_html()</h2>
+    <div class="function-container">
+        <div class="function-title">rasengan_html() - Tạo báo cáo phân tích thống kê dạng HTML</div>
+        <p>Hàm này tạo báo cáo HTML phân tích mối liên quan giữa biến phụ thuộc và các biến độc lập, tính toán các tỷ số như tỷ số chênh (OR), nguy cơ tương đối (RR), hoặc tỷ lệ hiện mắc (PR).</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>rasengan_html(data, vars, by, ib = 1, ratio = "OR", per = "row", p = NULL,
+              output = NULL, digit = 1, autoopen = FALSE, title = NULL,
+              pnote = FALSE, lang = "vie", show_n = FALSE)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">data</span>: Dữ liệu cần phân tích</p>
+            <p><span class="parameter-name">vars</span>: Danh sách biến độc lập (yếu tố nguy cơ cần phân tích)</p>
+            <p><span class="parameter-name">by</span>: Biến phụ thuộc (biến kết cục, thường là bệnh/không bệnh)</p>
+            <p><span class="parameter-name">ib</span>: Chỉ số nhóm tham chiếu (mặc định 1)</p>
+            <p><span class="parameter-name">ratio</span>: Loại tỷ số cần tính toán:
+                <ul>
+                    <li>"OR" - Tỷ số chênh (Odds Ratio): phù hợp cho nghiên cứu bệnh-chứng</li>
+                    <li>"RR" - Nguy cơ tương đối (Risk Ratio): phù hợp cho nghiên cứu thuần tập</li>
+                    <li>"PR" - Tỷ lệ hiện mắc (Prevalence Ratio): phù hợp cho nghiên cứu cắt ngang</li>
+                </ul>
+            </p>
+            <p><span class="parameter-name">per</span>: Tính tỷ lệ theo hàng hay cột ("row", "col")</p>
+            <p><span class="parameter-name">p</span>: Phương pháp tính giá trị p (tùy chọn)</p>
+            <p><span class="parameter-name">output</span>: Tên file đầu ra</p>
+            <p><span class="parameter-name">digit</span>: Số chữ số thập phân (mặc định 1)</p>
+            <p><span class="parameter-name">autoopen</span>: Tự động mở file sau khi tạo (TRUE/FALSE)</p>
+            <p><span class="parameter-name">title</span>: Tiêu đề của báo cáo</p>
+            <p><span class="parameter-name">pnote</span>: Chú thích cho giá trị p (TRUE/FALSE)</p>
+            <p><span class="parameter-name">lang</span>: Ngôn ngữ ("vie" hoặc "eng")</p>
+            <p><span class="parameter-name">show_n</span>: Hiển thị số lượng quan sát cho mỗi biến (TRUE/FALSE)</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo dữ liệu mẫu
+df <- sample_data(200)
+
+# Phân tích mối liên quan với 'disease' là biến phụ thuộc
+rasengan_html(
+  data = df, 
+  vars = c("gender", "age_group"), 
+  by = "disease", 
+  ratio = "OR", 
+  title = "Phân tích mối liên quan giữa các yếu tố nguy cơ và bệnh", 
+  digit = 2,
+  autoopen = TRUE
+)
+            </pre>
+        </div>
+        
+        <div class="note">
+            <p><strong>Lưu ý:</strong> Hàm này đặc biệt hữu ích cho nghiên cứu dịch tễ học khi cần phân tích mối liên quan giữa các yếu tố nguy cơ và bệnh. Kết quả bao gồm tỷ số (OR, RR hoặc PR) với khoảng tin cậy 95% và giá trị p.</p>
+        </div>
+    </div>
+
+    <h2 id="sharinganhtml">8. sharinganhtml()</h2>
+    <div class="function-container">
+        <div class="function-title">sharinganhtml() - Tạo báo cáo thống kê mô tả dạng HTML tương tác</div>
+        <p>Hàm này tạo báo cáo thống kê mô tả dạng HTML tương tác hiển thị tần số và tỷ lệ phần trăm cho biến định tính, trung bình (±SD) và trung vị (IQR) cho biến định lượng. Báo cáo có tính năng tương tác như xuất ra Excel, Word, và thay đổi định dạng dấu thập phân.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>sharinganhtml(data = NULL, varlist = NULL, digit = 1, output = NULL,
+              title = "Báo cáo thống kê mô tả", theme = "light", nosort = FALSE,
+              indent = NULL, missing = FALSE, by = NULL, merge_by = FALSE)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">data</span>: Dữ liệu cần phân tích</p>
+            <p><span class="parameter-name">varlist</span>: Danh sách biến cần báo cáo (NULL = tất cả)</p>
+            <p><span class="parameter-name">digit</span>: Số chữ số thập phân (mặc định 1)</p>
+            <p><span class="parameter-name">output</span>: Tên file đầu ra (tự động tạo nếu NULL)</p>
+            <p><span class="parameter-name">title</span>: Tiêu đề báo cáo</p>
+            <p><span class="parameter-name">theme</span>: Giao diện ("light" hoặc "dark")</p>
+            <p><span class="parameter-name">nosort</span>: Không sắp xếp các giá trị biến (mặc định FALSE)</p>
+            <p><span class="parameter-name">indent</span>: Số pixel thụt lề cho tiểu mục (NULL = mặc định)</p>
+            <p><span class="parameter-name">missing</span>: Hiển thị thông tin giá trị thiếu (mặc định FALSE)</p>
+            <p><span class="parameter-name">by</span>: Biến phân nhóm để tạo thống kê theo từng nhóm</p>
+            <p><span class="parameter-name">merge_by</span>: Khi có nhiều biến by, tạo bảng riêng cho mỗi biến (TRUE) hoặc một bảng chéo (FALSE)</p>
+        </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo báo cáo thống kê mô tả HTML tương tác với giao diện tối
+df <- sample_data(150)
+sharinganhtml(
+  data = df,
+  varlist = c("gender", "age_group", "bmi", "sbp"),
+  digit = 2,
+  title = "Báo cáo thống kê mô tả bệnh nhân",
+  theme = "dark",
+  by = "disease"
+)
+            </pre>
+        </div>
+        
+        <div class="note">
+            <p><strong>Tính năng nổi bật:</strong></p>
+            <ul>
+                <li>Phát hiện tự động biến định lượng và định tính, hiển thị thống kê phù hợp</li>
+                <li>Tạo báo cáo phân nhóm theo một hoặc nhiều biến (by)</li>
+                <li>Nút chức năng: sao chép bảng, xuất Excel, xuất Word, chuyển đổi định dạng số</li>
+                <li>Hỗ trợ phân tích giá trị thiếu (missing)</li>
+                <li>Tự động mở trình duyệt hiển thị báo cáo</li>
             </ul>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Lepistat</h1>
-                <p class="hero-subtitle">Gói thống kê R mạnh mẽ cho phân tích dữ liệu và trình bày kết quả nghiên cứu</p>
-                <div class="hero-btns">
-                    <a href="#cai-dat" class="btn btn-secondary">Cài đặt ngay</a>
-                    <a href="#huong-dan" class="btn btn-primary">Khám phá hướng dẫn</a>
-                </div>
-            </div>
+    <h2 id="sharingangt">9. sharingangt()</h2>
+    <div class="function-container">
+        <div class="function-title">sharingangt() - Tạo bảng GT</div>
+        <p>Hàm này tương tự sharinganhtml nhưng tạo ra bảng sử dụng gói gt để hiển thị trong R.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>sharingangt(data = NULL, varlist = NULL, digit = 1,
+           title = "Báo cáo thống kê mô tả", nosort = FALSE,
+           indent = NULL, missing = FALSE, by = NULL, merge_by = FALSE,
+           print_to_console = TRUE)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">data</span>: Dữ liệu cần phân tích</p>
+            <p><span class="parameter-name">varlist</span>: Danh sách biến cần báo cáo (NULL = tất cả)</p>
+            <p><span class="parameter-name">digit</span>: Số chữ số thập phân (mặc định 1)</p>
+            <p><span class="parameter-name">title</span>: Tiêu đề báo cáo</p>
+            <p><span class="parameter-name">missing</span>: Hiển thị thông tin giá trị thiếu (mặc định FALSE)</p>
+            <p><span class="parameter-name">by</span>: Biến phân nhóm (tùy chọn)</p>
+            <p><span class="parameter-name">print_to_console</span>: In bảng ra console (mặc định TRUE)</p>
         </div>
-    </section>
-
-    <!-- Introduction Section -->
-    <section class="section" id="gioi-thieu">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-aos="fade-up">Giới thiệu về Lepistat</h2>
-                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                    Một gói R toàn diện được thiết kế đặc biệt cho các nhà nghiên cứu để phân tích dữ liệu và trình bày kết quả một cách chuyên nghiệp.
-                </p>
-            </div>
-
-            <div class="features">
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h3 class="feature-title">Phân tích mô tả</h3>
-                    <p class="feature-text">
-                        Tạo các bảng thống kê mô tả chuyên nghiệp với định dạng phù hợp cho báo cáo khoa học và xuất bản.
-                    </p>
-                    <a href="#mo-ta" class="btn btn-outline">Tìm hiểu thêm</a>
-                </div>
-
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="feature-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Báo cáo tương tác</h3>
-                    <p class="feature-text">
-                        Tạo báo cáo HTML tương tác với khả năng xuất sang Word và Excel, thuận tiện cho việc chia sẻ kết quả.
-                    </p>
-                    <a href="#bao-cao" class="btn btn-outline">Tìm hiểu thêm</a>
-                </div>
-
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="feature-icon">
-                        <i class="fas fa-microscope"></i>
-                    </div>
-                    <h3 class="feature-title">Phân tích nâng cao</h3>
-                    <p class="feature-text">
-                        Tự động tính toán OR, RR và các thống kê phân tích theo nhóm với kết quả được định dạng sẵn.
-                    </p>
-                    <a href="#nang-cao" class="btn btn-outline">Tìm hiểu thêm</a>
-                </div>
-            </div>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo bảng GT thống kê mô tả
+df <- sample_data(150)
+sharingangt(
+  data = df,
+  varlist = c("gender", "age", "bmi"),
+  title = "Thống kê bệnh nhân"
+)
+            </pre>
         </div>
-    </section>
+    </div>
 
-    <!-- Installation Section -->
-    <section class="section" id="cai-dat" style="background-color: #F3F4F6;">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-aos="fade-up">Cài đặt Lepistat</h2>
-                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                    Chỉ với một vài bước đơn giản để cài đặt và bắt đầu sử dụng Lepistat cho nghiên cứu của bạn.
-                </p>
-            </div>
-
-            <div class="installation" data-aos="fade-up" data-aos-delay="200">
-                <h3 class="feature-title">Cài đặt từ GitHub</h3>
-                <p>Bạn có thể cài đặt phiên bản mới nhất của Lepistat trực tiếp từ GitHub bằng cách sử dụng gói <code>remotes</code> hoặc <code>devtools</code>:</p>
-                
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode('install-code')">
-                        <i class="far fa-copy"></i> Copy
-                    </button>
-                    <pre><code id="install-code"># Cài đặt gói remotes nếu chưa có
-install.packages("remotes")
-
-# Cài đặt Lepistat từ GitHub
-remotes::install_github("leanhngoc147/lepistat")</code></pre>
-                </div>
-                
-                <p>Sử dụng lệnh trên để cài đặt trực tiếp từ repository GitHub của leanhngoc147.</p>
-
-                <h3 class="feature-title" style="margin-top: 2rem;">Yêu cầu cài đặt</h3>
-                <p>Lepistat yêu cầu:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                    <li>R phiên bản 4.0.0 trở lên</li>
-                    <li>Các gói phụ thuộc: <code>dplyr</code>, <code>ggplot2</code>, <code>gt</code>, <code>tidyr</code>, <code>haven</code></li>
-                </ul>
-                <p>Các gói phụ thuộc sẽ được tự động cài đặt khi bạn cài đặt Lepistat.</p>
-
-                <h3 class="feature-title" style="margin-top: 2rem;">Kiểm tra cài đặt</h3>
-                <p>Sau khi cài đặt, bạn có thể kiểm tra xem gói đã được cài đặt thành công chưa bằng cách chạy:</p>
-                
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode('check-code')">
-                        <i class="far fa-copy"></i> Copy
-                    </button>
-                    <pre><code id="check-code">library(lepistat)
-
-# Tạo dữ liệu mẫu để kiểm tra
-data <- create_sample_data(n = 50)
-head(data)</code></pre>
-                </div>
-            </div>
+    <h2 id="lecodebook">10. lecodebook()</h2>
+    <div class="function-container">
+        <div class="function-title">lecodebook() - Tạo từ điển dữ liệu trực quan</div>
+        <p>Hàm này tạo một từ điển dữ liệu trực quan dạng HTML với khả năng hiển thị biểu đồ phân phối.</p>
+        
+        <h3>Cú pháp</h3>
+        <pre>lecodebook(data, varlist = NULL, cont = NULL, save = "datadictionary.html", 
+          title = "Data Dictionary", visual = FALSE)</pre>
+        
+        <h3>Tham số</h3>
+        <div class="parameter">
+            <p><span class="parameter-name">data</span>: Dữ liệu cần tạo từ điển</p>
+            <p><span class="parameter-name">varlist</span>: Danh sách biến cần hiển thị (NULL = tất cả)</p>
+            <p><span class="parameter-name">cont</span>: Danh sách biến bắt buộc là định lượng</p>
+            <p><span class="parameter-name">save</span>: Tên file đầu ra</p>
+            <p><span class="parameter-name">title</span>: Tiêu đề của từ điển</p>
+            <p><span class="parameter-name">visual</span>: Hiển thị biểu đồ phân phối (TRUE/FALSE)</p>
         </div>
-    </section>
+        
+        <h3>Ví dụ</h3>
+        <div class="example">
+            <pre>
+# Tạo từ điển dữ liệu có biểu đồ
+df <- sample_data(200)
+lecodebook(
+  data = df,
+  cont = c("age", "bmi", "sbp"),  # Biến này luôn là định lượng
+  title = "Từ điển dữ liệu nghiên cứu",
+  visual = TRUE  # Thêm biểu đồ
+)
+            </pre>
+        </div>
+    </div>
 
-    <!-- Features Section -->
-    <section class="section" id="tinh-nang">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-aos="fade-up">Tính năng chính</h2>
-                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                    Lepistat cung cấp đầy đủ công cụ cho quy trình phân tích dữ liệu nghiên cứu từ chuẩn bị đến xuất bản.
-                </p>
-            </div>
+    <h2>Kết luận</h2>
+    <p>Gói lepistat cung cấp nhiều công cụ hữu ích cho phân tích dữ liệu dịch tễ học từ việc tạo dữ liệu, kiểm tra cấu trúc, thống kê mô tả, và tạo báo cáo. Hầu hết các hàm đều hỗ trợ tiếng Việt và tạo ra các báo cáo chuyên nghiệp ở nhiều định dạng.</p>
 
-            <div class="examples">
-                <div class="example-tabs">
-                    <div class="example-tab active" data-tab="mo-ta">Phân tích mô tả</div>
-                    <div class="example-tab" data-tab="bao-cao">Báo cáo HTML</div>
-                    <div class="example-tab" data-tab="nang-cao">Phân tích nâng cao</div>
-                </div>
+    <div class="note">
+        <p><strong>Lưu ý:</strong> Trước khi sử dụng các hàm này, bạn cần cài đặt và tải gói lepistat:</p>
+        <pre>
+# Cài đặt các gói phụ thuộc trước
+install.packages(c("dplyr", "tidyr", "haven", "ggplot2", "gt"))
 
-                <div id="mo-ta" class="example-content active" data-aos="fade-up" data-aos-delay="200">
-                    <div class="feature-card">
-                        <h3 class="feature-title">Phân tích mô tả</h3>
-                        <p class="feature-text">Lepistat cung cấp các hàm mạnh mẽ để tạo bảng mô tả dữ liệu, phù hợp với báo cáo khoa học:</p>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode('desc-code')">
-                                <i class="far fa-copy"></i> Copy
-                            </button>
-                            <pre><code id="desc-code"># Mô tả cấu trúc dữ liệu
-des(data, gt = TRUE, vie = TRUE)
+# Nếu lepistat có trên CRAN
+install.packages("lepistat")
 
-# Tạo từ điển dữ liệu
-thuviendata(data)
+# Nếu cần cài đặt từ GitHub
+# install.packages("remotes")
+# remotes::install_github("username/lepistat")
 
-# Tạo bảng thống kê mô tả
-thongkemota(data, digits = 1, title = "Thống kê mô tả")</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="bao-cao" class="example-content" data-aos="fade-up" data-aos-delay="200">
-                    <div class="feature-card">
-                        <h3 class="feature-title">Báo cáo HTML tương tác</h3>
-                        <p class="feature-text">Tạo báo cáo HTML tương tác với khả năng xuất sang Word và Excel:</p>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode('report-code')">
-                                <i class="far fa-copy"></i> Copy
-                            </button>
-                            <pre><code id="report-code"># Tạo báo cáo HTML tương tác
-sharinganhtml(data, varlist = c("gender", "age", "bmi"), 
-              title = "Báo cáo thống kê", theme = "light")
-
-# Báo cáo có phân tầng theo biến
-sharinganhtml(data, varlist = c("sbp", "chol"), by = "gender", 
-              digit = 1, title = "Báo cáo theo giới tính")</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="nang-cao" class="example-content" data-aos="fade-up" data-aos-delay="200">
-                    <div class="feature-card">
-                        <h3 class="feature-title">Phân tích theo nhóm</h3>
-                        <p class="feature-text">Thực hiện phân tích so sánh giữa các nhóm với tính toán tỷ suất chênh (OR) và nguy cơ tương đối (RR):</p>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode('advanced-code')">
-                                <i class="far fa-copy"></i> Copy
-                            </button>
-                            <pre><code id="advanced-code"># Tạo báo cáo phân tích với OR
-                                rasengan_html(data, vars = c("disease", "blood_type"), 
-                                              by = "gender", ratio = "OR", lang = "vie")
-                                
-                                # Phân tích nguy cơ tương đối
-                                rasengan_html(data, vars = c("disease"), by = "age_group", 
-                                              ratio = "RR", title = "Phân tích nguy cơ")</code></pre>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-                                
-                                    <!-- Get Started Section -->
-                                    <section class="section" id="huong-dan" style="background-color: #F3F4F6;">
-                                        <div class="container">
-                                            <div class="section-header">
-                                                <h2 class="section-title" data-aos="fade-up">Hướng dẫn sử dụng</h2>
-                                                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                                                    Bắt đầu nhanh chóng với Lepistat qua các ví dụ thực tế và hướng dẫn chi tiết.
-                                                </p>
-                                            </div>
-                                
-                                            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                                                <h3 class="feature-title">Bắt đầu nhanh</h3>
-                                                <p class="feature-text">Để bắt đầu sử dụng Lepistat, hãy tải gói và sử dụng các chức năng phân tích dữ liệu:</p>
-                                                <div class="code-block">
-                                                    <button class="copy-btn" onclick="copyCode('quickstart-code')">
-                                                        <i class="far fa-copy"></i> Copy
-                                                    </button>
-                                                    <pre><code id="quickstart-code"># Tải gói
-                                library(lepistat)
-                                
-                                # Tạo dữ liệu mẫu
-                                data <- create_sample_data(n = 100)
-                                
-                                # Xem mô tả dữ liệu
-                                des(data)
-                                
-                                # Xem từ điển dữ liệu
-                                thuviendata(data)
-                                
-                                # Tạo bảng thống kê mô tả
-                                thongkemota(data)
-                                
-                                # Phân tích và tạo báo cáo HTML
-                                sharinganhtml(data = data, varlist = c("age", "gender", "bmi"))</code></pre>
-                                                </div>
-                                            </div>
-                                
-                                            <div class="feature-card" data-aos="fade-up" data-aos-delay="300" style="margin-top: 2rem;">
-                                                <h3 class="feature-title">Phân tích dữ liệu y khoa</h3>
-                                                <p class="feature-text">Ví dụ về cách phân tích và báo cáo dữ liệu y khoa:</p>
-                                                <div class="code-block">
-                                                    <button class="copy-btn" onclick="copyCode('medical-code')">
-                                                        <i class="far fa-copy"></i> Copy
-                                                    </button>
-                                                    <pre><code id="medical-code"># Tạo dữ liệu mẫu
-                                patient_data <- create_sample_data(n = 200)
-                                
-                                # Tạo báo cáo thống kê mô tả phân tầng theo giới tính
-                                sharinganhtml(data = patient_data, 
-                                              varlist = c("age", "bmi", "sbp", "chol", "disease"), 
-                                              by = "gender",
-                                              title = "Đặc điểm bệnh nhân theo giới tính",
-                                              digit = 1)
-                                
-                                # Phân tích mối liên quan giữa yếu tố nguy cơ và bệnh
-                                rasengan_html(patient_data, 
-                                              vars = c("bmi", "sbp", "chol"), 
-                                              by = "disease",
-                                              ratio = "OR", 
-                                              title = "Phân tích yếu tố nguy cơ bệnh",
-                                              digit = 2)</code></pre>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-                                
-                                    <!-- Documentation Section -->
-                                    <section class="section" id="tai-lieu">
-                                        <div class="container">
-                                            <div class="section-header">
-                                                <h2 class="section-title" data-aos="fade-up">Tài liệu</h2>
-                                                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                                                    Truy cập đầy đủ tài liệu tham khảo và hướng dẫn chi tiết về cách sử dụng Lepistat.
-                                                </p>
-                                            </div>
-                                
-                                            <div class="docs-grid">
-                                                <div class="doc-card" data-aos="fade-up" data-aos-delay="200">
-                                                    <h3 class="doc-title">Tài liệu tham khảo</h3>
-                                                    <p class="doc-text">
-                                                        Tra cứu chi tiết về tất cả các hàm và tham số được hỗ trợ trong gói Lepistat.
-                                                    </p>
-                                                    <a href="#" class="btn btn-outline">Xem tài liệu</a>
-                                                </div>
-                                
-                                                <div class="doc-card" data-aos="fade-up" data-aos-delay="300">
-                                                    <h3 class="doc-title">Hướng dẫn chi tiết</h3>
-                                                    <p class="doc-text">
-                                                        Các bài hướng dẫn từng bước giúp bạn làm quen với các tính năng của Lepistat.
-                                                    </p>
-                                                    <a href="#" class="btn btn-outline">Xem hướng dẫn</a>
-                                                </div>
-                                
-                                                <div class="doc-card" data-aos="fade-up" data-aos-delay="400">
-                                                    <h3 class="doc-title">Ví dụ thực tế</h3>
-                                                    <p class="doc-text">
-                                                        Nghiên cứu các ví dụ thực tế về cách sử dụng Lepistat trong phân tích dữ liệu nghiên cứu.
-                                                    </p>
-                                                    <a href="#" class="btn btn-outline">Xem ví dụ</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-                                
-                                    <!-- CTA Section -->
-                                    <section class="section">
-                                        <div class="container">
-                                            <div class="cta" data-aos="fade-up">
-                                                <h2 class="cta-title">Bắt đầu với Lepistat ngay hôm nay</h2>
-                                                <p class="cta-text">
-                                                    Tối ưu hóa quy trình phân tích dữ liệu nghiên cứu của bạn với các công cụ mạnh mẽ và báo cáo trực quan.
-                                                </p>
-                                                <a href="#cai-dat" class="btn btn-secondary">Cài đặt ngay</a>
-                                            </div>
-                                        </div>
-                                    </section>
-                                
-                                    <!-- Footer -->
-                                    <footer class="footer">
-                                        <div class="container">
-                                            <div class="footer-content">
-                                                <div class="footer-col">
-                                                    <h3>Lepistat</h3>
-                                                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 1rem;">
-                                                        Gói thống kê R chuyên nghiệp cho phân tích dữ liệu nghiên cứu.
-                                                    </p>
-                                                    <div class="social-links">
-                                                        <a href="https://github.com/leanhngoc147/lepistat" class="social-link">
-                                                            <i class="fab fa-github"></i>
-                                                        </a>
-                                                        <a href="#" class="social-link">
-                                                            <i class="fab fa-twitter"></i>
-                                                        </a>
-                                                        <a href="#" class="social-link">
-                                                            <i class="fab fa-linkedin-in"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                
-                                                <div class="footer-col">
-                                                    <h3>Liên kết</h3>
-                                                    <ul class="footer-links">
-                                                        <li><a href="#gioi-thieu" class="footer-link">Giới thiệu</a></li>
-                                                        <li><a href="#cai-dat" class="footer-link">Cài đặt</a></li>
-                                                        <li><a href="#tinh-nang" class="footer-link">Tính năng</a></li>
-                                                        <li><a href="#huong-dan" class="footer-link">Hướng dẫn</a></li>
-                                                        <li><a href="#tai-lieu" class="footer-link">Tài liệu</a></li>
-                                                    </ul>
-                                                </div>
-                                
-                                                <div class="footer-col">
-                                                    <h3>Tài nguyên</h3>
-                                                    <ul class="footer-links">
-                                                        <li><a href="#" class="footer-link">Hướng dẫn cài đặt</a></li>
-                                                        <li><a href="#" class="footer-link">Tài liệu API</a></li>
-                                                        <li><a href="#" class="footer-link">Ví dụ mã nguồn</a></li>
-                                                        <li><a href="#" class="footer-link">Báo cáo lỗi</a></li>
-                                                        <li><a href="#" class="footer-link">Đóng góp</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                
-                                            <div class="footer-bottom">
-                                                <p>&copy; 2025 Lepistat - Phát triển bởi Ngọc Lê Anh. All rights reserved.</p>
-                                            </div>
-                                        </div>
-                                    </footer>
-                                
-                                    <!-- Scripts -->
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
-                                
-                                    <script>
-                                        // Initialize AOS
-                                        AOS.init({
-                                            duration: 800,
-                                            easing: 'ease-in-out',
-                                            once: true
-                                        });
-                                
-                                        // Mobile Menu Toggle
-                                        const mobileToggle = document.querySelector('.mobile-toggle');
-                                        const navLinks = document.querySelector('.nav-links');
-                                
-                                        mobileToggle.addEventListener('click', () => {
-                                            navLinks.classList.toggle('active');
-                                        });
-                                
-                                        // Smooth scrolling for navigation links
-                                        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                                            anchor.addEventListener('click', function (e) {
-                                                e.preventDefault();
-                                                navLinks.classList.remove('active');
-                                                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                                                    behavior: 'smooth'
-                                                });
-                                            });
-                                        });
-                                
-                                        // Navbar color change on scroll
-                                        window.addEventListener('scroll', () => {
-                                            const navbar = document.querySelector('.navbar');
-                                            if (window.scrollY > 50) {
-                                                navbar.classList.add('scrolled');
-                                            } else {
-                                                navbar.classList.remove('scrolled');
-                                            }
-                                        });
-                                
-                                        // Tab switching
-                                        const tabs = document.querySelectorAll('.example-tab');
-                                        const tabContents = document.querySelectorAll('.example-content');
-                                
-                                        tabs.forEach(tab => {
-                                            tab.addEventListener('click', () => {
-                                                const target = tab.getAttribute('data-tab');
-                                                
-                                                tabs.forEach(t => t.classList.remove('active'));
-                                                tabContents.forEach(c => c.classList.remove('active'));
-                                                
-                                                tab.classList.add('active');
-                                                document.getElementById(target).classList.add('active');
-                                            });
-                                        });
-                                
-                                        // Copy code to clipboard
-                                        function copyCode(id) {
-                                            const codeBlock = document.getElementById(id);
-                                            const text = codeBlock.textContent;
-                                            
-                                            navigator.clipboard.writeText(text).then(() => {
-                                                const button = codeBlock.parentNode.querySelector('.copy-btn');
-                                                const originalText = button.innerHTML;
-                                                
-                                                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                                                
-                                                setTimeout(() => {
-                                                    button.innerHTML = originalText;
-                                                }, 2000);
-                                            });
-                                        }
-                                
-                                        // Typed.js effect for hero subtitle
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            // Add fade-in animation to elements with delay
-                                            const animateElements = document.querySelectorAll('.fade-in');
-                                            animateElements.forEach((el, index) => {
-                                                setTimeout(() => {
-                                                    el.style.opacity = 1;
-                                                }, 300 * index);
-                                            });
-                                
-                                            // Animate feature cards on hover with 3D effect
-                                            const featureCards = document.querySelectorAll('.feature-card');
-                                            featureCards.forEach(card => {
-                                                card.addEventListener('mousemove', (e) => {
-                                                    const rect = card.getBoundingClientRect();
-                                                    const x = e.clientX - rect.left;
-                                                    const y = e.clientY - rect.top;
-                                                    
-                                                    const xRotation = ((y - rect.height / 2) / 10) * -1;
-                                                    const yRotation = (x - rect.width / 2) / 10;
-                                                    
-                                                    card.style.transform = `perspective(1000px) rotateX(${xRotation}deg) rotateY(${yRotation}deg) scale(1.05)`;
-                                                });
-                                                
-                                                card.addEventListener('mouseout', () => {
-                                                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                                                });
-                                            });
-                                
-                                            // Add parallax scrolling effect to hero section
-                                            window.addEventListener('scroll', () => {
-                                                const scrolled = window.scrollY;
-                                                const hero = document.querySelector('.hero');
-                                                if (hero) {
-                                                    hero.style.backgroundPosition = `center ${scrolled * 0.5}px`;
-                                                }
-                                            });
-                                        });
-                                    </script>
-                                </body>
-                                </html>
+# Tải gói
+library(lepistat)
+        </pre>
+    </div>
+</body>
+</html>
